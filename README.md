@@ -1,6 +1,6 @@
-# Learning-Github-Actions
+# Automated-App-Store-Submits
 
-Goal is to do **Automated AppStore Submits** of the DJ App.
+Goal is to do **Automated AppStore Submits** of the DJ App, by learning and using [Github Actions](https://docs.github.com/en/actions).
 
 1. A new DEV version of the DJ App gets built and submitted to App Stores every night at TODO time. But only if there was some new code added since last App Store submission.
 1. ^ This should also be doable outside of the fixed nightly schedule, by merging of any Pull Request that has the label `trigger-new-app-store-submit-of-dev`.
