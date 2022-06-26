@@ -6,8 +6,8 @@ name: Consistently run every 5 minutes no matter what.
 
 on:
   schedule:
-    - cron: 5 * * * *
-    # SEE: https://crontab.guru/#5_*_*_*_*
+    - cron: */5 * * * *
+    # SEE: https://crontab.guru/#*/5_*_*_*_*
     # All github actions run at UTC times
 
 jobs:
