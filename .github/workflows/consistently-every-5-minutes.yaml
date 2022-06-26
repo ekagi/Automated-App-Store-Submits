@@ -50,14 +50,14 @@ jobs:
         run: echo "::set-output name=SECOND::$(date +'%S')"
 
   only_odd_minutes:
-    if: ${{ github.event.inputs.is_odd }}
+    if: github.event.inputs.is_odd
     runs-on: ubuntu-latest
     steps:
       - name: Something odd
         run: echo "This step is inside a JOB that only runs if input ODD is true"
 
   only_odd_seconds:
-    if: ${{ github.event.inputs.is_even }}
+    if: github.event.inputs.is_even
     runs-on: ubuntu-latest
     steps:
       - name: Something even
