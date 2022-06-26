@@ -4,17 +4,59 @@ name: Consistently run every 5 minutes no matter what.
 # **Why we have it**: To learn GitHub actions to automate nightly builds.
 # **Who does it impact**: Me :-)
 
+# Can be run manually, because of `workflow_dispatch`.
+# And also runs on the pre-determined schedule
 on:
+  workflow_dispatch:
+    # Inputs the workflow accepts.
+    inputs:
+      is_odd:
+        # Friendly description to be shown in the UI instead of 'is_odd'
+        description: 'Is this odd?'
+        # Default value if no value is explicitly provided
+        default: true
+        # Input has to be provided for the workflow to run
+        required: false
+      is_even:
+        # Friendly description to be shown in the UI instead of 'is_even'
+        description: 'Is this even?'
+        # Default value if no value is explicitly provided
+        default: true
+        # Input has to be provided for the workflow to run
+        required: false
   schedule:
     - cron: 1,6,11,16,21,26,31,36,41,46,51,56 * * * *
-    # SEE: https://crontab.guru/#*/5_*_*_*_*
     # Seems like github does not allow step values with a / for example `cron: */5 * * * *`
+    # So we enter all the minute intervals
     # SEE: https://github.com/ekagi/Automated-App-Store-Submits/actions/runs/2565144530/workflow
-    # All github actions run at UTC times
+    # SEE: https://crontab.guru/#*/5_*_*_*_*
+    # NOTE: All github actions run at UTC times
 
 jobs:
   test_schedule:
     runs-on: ubuntu-latest
+
+    outputs:
+      minute_of_run: ${{ steps.get_minute.outputs.MINUTE }}
+      second_of_run: ${{ steps.get_second.outputs.SECOND }}
     steps:
       - name: When am I running
         run: echo "Hi, I just automatically ran at ... $(date +'%Y%m%d_%H%M%S')"
+      - id: get_minute
+        run: echo "::set-output name=MINUTE::$(date +'%M')"
+      - id: get_second
+        run: echo "::set-output name=SECOND::$(date +'%S')"
+
+  only_odd_minutes:
+    if: ${{ github.event.inputs.is_odd }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Something odd
+        run: echo "This step is inside a JOB that only runs if input ODD is true"
+
+  only_odd_seconds:
+    if: ${{ github.event.inputs.is_even }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Something even
+        run: echo "This step is inside a JOB that only runs if input EVEN is true"
