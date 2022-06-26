@@ -6,8 +6,10 @@ name: Consistently run every 5 minutes no matter what.
 
 on:
   schedule:
-    - cron: */5 * * * *
+    - cron: 1,6,11,16,21,26,31,36,41,46,51,56 * * * *
     # SEE: https://crontab.guru/#*/5_*_*_*_*
+    # Seems like github does not allow step values with a / for example `cron: */5 * * * *`
+    # SEE: https://github.com/ekagi/Automated-App-Store-Submits/actions/runs/2565144530/workflow
     # All github actions run at UTC times
 
 jobs:
